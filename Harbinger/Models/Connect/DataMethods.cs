@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	public class DataMethods
+	internal class DataMethods
 	{
 		[JsonProperty(PropertyName = "error_event_data")]
 		public EventData ErrorEventData { get; internal set; }

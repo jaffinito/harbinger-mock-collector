@@ -1,14 +1,11 @@
-﻿using Harbinger.Data;
-using Harbinger.Data.SpanEvents;
-using Harbinger.Logging;
-using Harbinger.Models;
+﻿using Harbinger.Models;
 using Harbinger.Models.Connect;
+using Harbinger.Models.SpanEvents;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Harbinger
 {
-    public static class ConnectMethodHandler
+    internal static class ConnectMethodHandler
 	{
 		private static string _localIP;
 

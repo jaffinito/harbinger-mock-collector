@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	public class OutboundConnect
+	internal class OutboundConnect
 	{
 		[JsonProperty(PropertyName = "agent_run_id")]
 		public string AgentRunId { get; internal set; }

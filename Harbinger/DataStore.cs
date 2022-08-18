@@ -1,10 +1,10 @@
-﻿using Harbinger.Data.Metrics;
-using Harbinger.Data.SpanEvents;
-using Harbinger.Models.Connect;
+﻿using Harbinger.Models.Connect;
+using Harbinger.Models.Metrics;
+using Harbinger.Models.SpanEvents;
 
-namespace Harbinger.Data
+namespace Harbinger
 {
-    public sealed class DataStore
+    internal sealed class DataStore
     {
         private static readonly DataStore instance = new DataStore();
 
@@ -14,8 +14,8 @@ namespace Harbinger.Data
 
         private DataStore()
         {
-            RawMetricData = new ();
-            MetricData = new ();
+            RawMetricData = new();
+            MetricData = new();
             SpanEventData = new();
         }
 

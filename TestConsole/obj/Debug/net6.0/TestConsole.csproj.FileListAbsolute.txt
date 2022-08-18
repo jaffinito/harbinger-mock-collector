@@ -7,8 +7,6 @@ C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\xunit.abstractions.dll
 C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\Harbinger.dll
 C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\appsettings.Development.json
 C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\appsettings.json
-C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\Models\Connect\out-connect-formatted.json
-C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\Models\Connect\out-connect-unformatted.json
 C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\TestConsole.deps.json
 C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\TestConsole.runtimeconfig.json
 C:\dev\github\Harbinger\TestConsole\bin\Debug\net6.0\TestConsole.pdb

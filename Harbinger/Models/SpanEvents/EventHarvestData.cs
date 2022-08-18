@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Harbinger.Data.SpanEvents
+namespace Harbinger.Models.SpanEvents
 {
-    public class EventHarvestData
+    internal class EventHarvestData
     {
         [JsonProperty("reservoir_size")]
         public long ReservoirSize { get; set; }

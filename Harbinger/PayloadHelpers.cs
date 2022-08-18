@@ -1,12 +1,11 @@
-﻿using Harbinger.Logging;
-using Harbinger.Models.Connect;
+﻿using Harbinger.Models.Connect;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using System.Text;
 
 namespace Harbinger
 {
-	public class PayloadHelpers
+    internal class PayloadHelpers
 	{
 		public static async Task<string> TryDecompress(Stream stream, string compressionsType)
 		{

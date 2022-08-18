@@ -1,6 +1,6 @@
-﻿namespace Harbinger.Data.Metrics
+﻿namespace Harbinger.Models.Metrics
 {
-    public class RawMetricData
+    internal class RawMetricData
     {
         public List<List<object>> MetricData { get; internal set; }
 

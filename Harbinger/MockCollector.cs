@@ -1,5 +1,4 @@
 ﻿using Harbinger.Controllers;
-using Harbinger.Logging;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Xunit.Abstractions;
 

@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Harbinger.Data.SpanEvents
+namespace Harbinger.Models.SpanEvents
 {
-    public class SpanEventData
+    internal class SpanEventData
     {
         public string AgentRunId { get; set; }
-        
+
         public EventHarvestData EventHarvestData { get; set; }
-        
+
         public List<SpanEvent> SpanEvents { get; set; }
 
         public SpanEventData(string payload)
@@ -18,7 +18,7 @@ namespace Harbinger.Data.SpanEvents
             var spanEventData = JsonConvert.DeserializeObject<JArray>(payload);
 
             AgentRunId = spanEventData[0].ToString();
-            
+
             EventHarvestData = spanEventData[1].ToObject<EventHarvestData>();
 
             var spanEvents = spanEventData[2];

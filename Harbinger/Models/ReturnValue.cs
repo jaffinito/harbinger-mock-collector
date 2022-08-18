@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models
 {
-	public class ReturnValue
+	internal class ReturnValue
 	{
 		[JsonProperty(PropertyName = "return_value")]
 		public object Value { get; internal set; }

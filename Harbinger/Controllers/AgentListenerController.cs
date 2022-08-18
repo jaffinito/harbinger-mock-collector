@@ -5,7 +5,7 @@ namespace Harbinger.Controllers
 {
 	[Route("agent_listener")]
 	[ApiController]
-	public class AgentListenerController : ControllerBase
+	internal class AgentListenerController : ControllerBase
 	{
 		//invoke_raw_method?method={method}&license_key={licensekey}&marshal_format=json&protocol_version={protocolversion}
 		[HttpPost, Route("invoke_raw_method")]

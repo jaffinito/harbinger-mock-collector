@@ -1,8 +1,8 @@
 ﻿using Xunit.Abstractions;
 
-namespace Harbinger.Logging
+namespace Harbinger
 {
-    public sealed class LoggerAdapter
+    internal sealed class LoggerAdapter
     {
         private static readonly LoggerAdapter instance = new();
 

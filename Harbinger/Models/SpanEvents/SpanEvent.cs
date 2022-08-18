@@ -1,6 +1,6 @@
-﻿namespace Harbinger.Data.SpanEvents
+﻿namespace Harbinger.Models.SpanEvents
 {
-    public class SpanEvent
+    internal class SpanEvent
     {
         public Dictionary<string, object> InstrinsicAttributes { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	public class ConnectMethodResponse
+	internal class ConnectMethodResponse
 	{
 		[JsonProperty(PropertyName = "agent_run_id")]
 		public string AgentRunId { get; internal set; }

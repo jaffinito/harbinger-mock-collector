@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Harbinger.Data.Metrics
+namespace Harbinger.Models.Metrics
 {
-    public class MetricData
+    internal class MetricData
     {
         private readonly Dictionary<string, List<ScopedMetric>> _scopedMetrics; // scope, (name, numbers)
         private readonly Dictionary<string, Timeslice> _unscopedMetrics; // name, number

@@ -2,7 +2,7 @@
 
 namespace Harbinger
 {
-    public class ParseStringConverter : JsonConverter
+    internal class ParseStringConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
 

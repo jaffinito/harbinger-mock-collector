@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    public class PreConnectRequest
+    internal class PreConnectRequest
     {
         [JsonProperty(PropertyName = "high_security")]
         public bool HighSecurity { get; internal set; }

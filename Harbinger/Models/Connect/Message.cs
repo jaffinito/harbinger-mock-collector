@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	public class Message
+	internal class Message
 	{
 		[JsonProperty(PropertyName = "level")]
 		public string Level { get; internal set; }

@@ -1,6 +1,6 @@
-﻿namespace Harbinger.Data.Metrics
+﻿namespace Harbinger.Models.Metrics
 {
-    public class ScopedMetric
+    internal class ScopedMetric
     {
         public string Name { get; internal set; }
         public Timeslice Timeslice { get; internal set; }
