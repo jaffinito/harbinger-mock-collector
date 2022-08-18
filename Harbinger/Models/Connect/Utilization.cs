@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    internal class Utilization
+    public class Utilization
     {
         [JsonProperty("metadata_version")]
         public long MetadataVersion { get; set; }

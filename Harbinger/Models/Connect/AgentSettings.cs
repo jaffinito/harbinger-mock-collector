@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	internal class AgentSettings
+	public class AgentSettings
 	{
 		[JsonProperty(PropertyName = "newrelic.appname")] public string AppName { get; internal set; }
 		[JsonProperty(PropertyName = "newrelic.attributes.enabled")] public string AttributesEnabled { get; internal set; }

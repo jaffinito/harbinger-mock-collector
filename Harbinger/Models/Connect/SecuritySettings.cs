@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    internal class SecuritySettings
+    public class SecuritySettings
     {
         [JsonProperty("transaction_tracer")]
         public TransactionTracer TransactionTracer { get; set; }

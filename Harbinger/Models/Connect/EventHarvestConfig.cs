@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    internal class EventHarvestConfig
+    public class EventHarvestConfig
     {
         [JsonProperty("harvest_limits")]
         public HarvestLimits HarvestLimits { get; set; }

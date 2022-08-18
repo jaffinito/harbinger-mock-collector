@@ -4,13 +4,13 @@ namespace Harbinger.Models.Metrics
 {
     internal class MetricData
     {
-        private readonly Dictionary<string, List<ScopedMetric>> _scopedMetrics; // scope, (name, numbers)
-        private readonly Dictionary<string, Timeslice> _unscopedMetrics; // name, number
+        public readonly Dictionary<string, List<ScopedMetric>> ScopedMetrics; // scope, (name, numbers)
+        public readonly Dictionary<string, Timeslice> UnscopedMetrics; // name, number
 
         public MetricData()
         {
-            _scopedMetrics = new Dictionary<string, List<ScopedMetric>>();
-            _unscopedMetrics = new Dictionary<string, Timeslice>();
+            ScopedMetrics = new Dictionary<string, List<ScopedMetric>>();
+            UnscopedMetrics = new Dictionary<string, Timeslice>();
         }
 
         public void Add(List<object> metricDataObject)
@@ -58,14 +58,14 @@ namespace Harbinger.Models.Metrics
         {
             // unscoped
             Timeslice timeSlice;
-            if (_unscopedMetrics.TryGetValue(name, out timeSlice))
+            if (UnscopedMetrics.TryGetValue(name, out timeSlice))
             {
                 timeSlice.UpdateTimeSlice((int)numbers[0], (double)numbers[1], (double)numbers[2], (double)numbers[3], (double)numbers[4], (double)numbers[5]);
             }
             else
             {
                 timeSlice = new Timeslice((int)numbers[0], (double)numbers[1], (double)numbers[2], (double)numbers[3], (double)numbers[4], (double)numbers[5]);
-                _unscopedMetrics.Add(name, timeSlice);
+                UnscopedMetrics.Add(name, timeSlice);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Harbinger.Models.Metrics
         {
             //scoped
             List<ScopedMetric> scopedMetrics;
-            if (_scopedMetrics.TryGetValue(scope, out scopedMetrics))
+            if (ScopedMetrics.TryGetValue(scope, out scopedMetrics))
             {
                 var scopedMetricExistingScope = scopedMetrics.FirstOrDefault(s => s.Name == name);
 
@@ -94,22 +94,8 @@ namespace Harbinger.Models.Metrics
                 var scopedMetricNewScope = new ScopedMetric(name,
                     new Timeslice((int)numbers[0], (double)numbers[1], (double)numbers[2],
                         (double)numbers[3], (double)numbers[4], (double)numbers[5]));
-                _scopedMetrics.Add(scope, new List<ScopedMetric>() { scopedMetricNewScope });
+                ScopedMetrics.Add(scope, new List<ScopedMetric>() { scopedMetricNewScope });
             }
-        }
-
-        public bool UnscopedMetricExists(string metric)
-        {
-            return _unscopedMetrics.ContainsKey(metric);
-        }
-
-        public bool ScopedMetricExists(string metric, string scope)
-        {
-            List<ScopedMetric> scopedMetrics;
-            if (!_scopedMetrics.TryGetValue(scope, out scopedMetrics)) return false;
-
-            var scopedMetric = scopedMetrics.FirstOrDefault(s => s.Name == metric);
-            return scopedMetric != null;
         }
     }
 }

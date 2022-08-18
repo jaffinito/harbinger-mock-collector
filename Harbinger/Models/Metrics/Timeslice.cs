@@ -1,6 +1,6 @@
 ﻿namespace Harbinger.Models.Metrics
 {
-    internal class Timeslice
+    public class Timeslice
     {
         public int Count { get; internal set; }
         public double Totaltime { get; internal set; }

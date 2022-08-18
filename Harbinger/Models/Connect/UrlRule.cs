@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	internal class UrlRule
+	public class UrlRule
 	{
 		[JsonProperty(PropertyName = "replacement")]
 		public string Replacement { get; internal set; }

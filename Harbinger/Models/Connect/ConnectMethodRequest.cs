@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    internal class ConnectMethodRequest
+    public class ConnectMethodRequest
     {
         [JsonProperty("pid")]
         public long Pid { get; set; }

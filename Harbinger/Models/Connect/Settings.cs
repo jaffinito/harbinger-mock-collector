@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    internal class Settings
+    public class Settings
     {
         [JsonProperty("agent.name")]
         public string AgentName { get; set; }

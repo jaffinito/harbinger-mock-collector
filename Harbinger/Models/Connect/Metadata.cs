@@ -1,6 +1,6 @@
 ﻿namespace Harbinger.Models.Connect
 {
-    internal class Metadata
+    public class Metadata
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-    internal class TransactionTracer
+    public class TransactionTracer
     {
         [JsonProperty("record_sql")]
         public string RecordSql { get; set; }

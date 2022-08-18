@@ -2,7 +2,7 @@
 
 namespace Harbinger.Models.Connect
 {
-	internal class EventData
+	public class EventData
 	{
 		[JsonProperty(PropertyName = "report_period_in_seconds")]
 		public int ReportPeriodInSeconds { get; internal set; }
