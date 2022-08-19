@@ -1,10 +1,10 @@
 ﻿namespace Harbinger.Models.Metrics
 {
-    internal class RawMetricData
+    internal class RawMetricsCollection
     {
         public List<List<object>> MetricData { get; internal set; }
 
-        public RawMetricData()
+        public RawMetricsCollection()
         {
             MetricData = new List<List<object>>();
         }

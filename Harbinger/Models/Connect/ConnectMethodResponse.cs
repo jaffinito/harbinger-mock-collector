@@ -46,6 +46,9 @@ namespace Harbinger.Models.Connect
 		[JsonProperty(PropertyName = "data_methods")]
 		public DataMethods DataMethods { get; internal set; }
 
+		[JsonProperty(PropertyName = "event_harvest_config")]
+		public EventHarvestConfig EventHarvestConfig { get; internal set; }
+
 		[JsonProperty(PropertyName = "data_report_period")]
 		public int DataReportPeriod { get; internal set; }
 
@@ -78,6 +81,9 @@ namespace Harbinger.Models.Connect
 
 		[JsonProperty(PropertyName = "sampling_rate")]
 		public int SamplingRate { get; internal set; }
+
+		[JsonProperty(PropertyName = "span_event_harvest_config")]
+		public SpanEventHarvestConfig SpanEventHarvestConfig { get; internal set; }
 
 		[JsonProperty(PropertyName = "transaction_naming_scheme")]
 		public string TransactionNamingScheme { get; internal set; }

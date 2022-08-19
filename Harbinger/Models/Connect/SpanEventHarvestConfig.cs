@@ -2,10 +2,10 @@
 
 namespace Harbinger.Models.Connect
 {
-    public class EventHarvestConfig
+    public class SpanEventHarvestConfig
     {
-        [JsonProperty("harvest_limits")]
-        public HarvestLimits HarvestLimits { get; set; }
+        [JsonProperty("harvest_limit")]
+        public int HarvestLimit { get; set; }
 
         [JsonProperty("report_period_ms")]
         public int ReportPeriodMilliseconds { get; set; }

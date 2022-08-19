@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Harbinger.Models.SpanEvents
+namespace Harbinger.Models.Events
 {
     internal class EventHarvestData
     {

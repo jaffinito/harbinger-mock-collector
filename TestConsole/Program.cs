@@ -6,6 +6,8 @@ using TestConsole;
 // Both of the following need to be set or newrelic.config changes made to use the moc collector
 // NEW_RELIC_HOST
 // NEW_RELIC_PORT
+// PS: $env:NEW_RELIC_HOST="localhost";$env:NEW_RELIC_PORT="5001"
+// PS: $env:NEW_RELIC_HOST="staging-collector.newrelic.com";$env:NEW_RELIC_PORT=""
 
 Console.WriteLine("Welcome to the test console!");
 

@@ -1,35 +1,15 @@
 ﻿using Harbinger.Models.Connect;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using System.Text;
 
 namespace Harbinger
 {
     internal class PayloadHelpers
 	{
-		public static async Task<string> TryDecompress(Stream stream, string compressionsType)
-		{
-			if (compressionsType == "identity")
-			{
-				using (var reader = new StreamReader(stream))
-				{
-					return await reader.ReadToEndAsync();
-				}
-			}
-
-			using (var inflaterStream = new InflaterInputStream(stream, new Inflater()))
-			using (var streamReader = new StreamReader(inflaterStream, Encoding.UTF8))
-			{
-				return await streamReader.ReadToEndAsync();
-			}
-		}
-
-		public static ConnectMethodResponse ConnectReplyMock(int agentRunId, bool staging = false)
+        public static ConnectMethodResponse ConnectReplyMock(string agentRunId, bool staging = false)
 		{
 			return new ConnectMethodResponse
 			{
 				AgentRunId = $"{agentRunId}",
-				ApdexT = 1.0,
+				ApdexT = 0.0,
 				ApplicationId = "42977590",
 				Beacon = "bam.nr-data.net",
 				BrowserKey = "9df73b947f",
@@ -39,13 +19,30 @@ namespace Harbinger
 				CollectAnalyticsEvents = true,
 				CollectErrorReports = true,
 				CollectErrors = true,
-				CollectTraces = false,
+				CollectTraces = true,
 				CrossProcessId = "471588#42977590",
 				DataMethods = new DataMethods
 				{
-					AnalyticEventData = new EventData { ReportPeriodInSeconds = 60 },
-					CustomEventData = new EventData { ReportPeriodInSeconds = 60 },
-					ErrorEventData = new EventData { ReportPeriodInSeconds = 60 }
+					AnalyticEventData = new EventDataConfiguration { ReportPeriodInSeconds = 60 },
+					CustomEventData = new EventDataConfiguration { ReportPeriodInSeconds = 60 },
+					ErrorEventData = new EventDataConfiguration { ReportPeriodInSeconds = 60 },
+					SpanEventData = new EventDataConfiguration { ReportPeriodInSeconds = 60 }
+				},
+				EventHarvestConfig = new EventHarvestConfig
+				{
+					ReportPeriodMilliseconds = 5000,
+					HarvestLimits = new HarvestLimits
+					{
+						ErrorEventData = 8,
+						LogEventData = 833,
+						AnalyticEventData = 833,
+						CustomEventData = 833,
+					}
+				},
+				SpanEventHarvestConfig = new SpanEventHarvestConfig
+				{
+					ReportPeriodMilliseconds = 60000,
+					HarvestLimit = 2000
 				},
 				DataReportPeriod = 60,
 				EncodingKey = "d67afc830dab717fd163bfcb0b8b88423e9a1a3b",

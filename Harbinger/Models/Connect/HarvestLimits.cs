@@ -13,9 +13,6 @@ namespace Harbinger.Models.Connect
         [JsonProperty("error_event_data")]
         public long ErrorEventData { get; set; }
 
-        [JsonProperty("span_event_data")]
-        public long SpanEventData { get; set; }
-
         [JsonProperty("log_event_data")]
         public long LogEventData { get; set; }
     }

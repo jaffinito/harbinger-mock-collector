@@ -1,6 +1,6 @@
 ﻿using Harbinger.Models.Connect;
 using Harbinger.Models.Metrics;
-using Harbinger.Models.SpanEvents;
+using Harbinger.Models.Events;
 
 namespace Harbinger
 {
@@ -17,16 +17,28 @@ namespace Harbinger
             RawMetricData = new();
             MetricData = new();
             SpanEventData = new();
+            TransactionEventData = new();
+            LogEventData = new();
+            ErrorEventData = new();
+            CustomEventData = new();
         }
 
         public static DataStore Instance => instance;
 
-        public RawMetricData RawMetricData { get; }
+        public RawMetricsCollection RawMetricData { get; }
 
-        public MetricData MetricData { get; }
+        public MetricsCollection MetricData { get; }
 
         public ConnectMethodRequest ConnectRequest { get; set; }
 
-        public Dictionary<string, SpanEventData> SpanEventData { get; }
+        public Dictionary<string, EventData> SpanEventData { get; }
+
+        public Dictionary<string, EventData> TransactionEventData { get; }
+
+        public Dictionary<string, EventData> ErrorEventData { get; }
+
+        public Dictionary<string, EventData> CustomEventData { get; }
+
+        public List<LogEventData> LogEventData { get; }
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Harbinger.Models.Metrics
 {
-    internal class MetricData
+    internal class MetricsCollection
     {
         public readonly Dictionary<string, List<ScopedMetric>> ScopedMetrics; // scope, (name, numbers)
         public readonly Dictionary<string, Timeslice> UnscopedMetrics; // name, number
 
-        public MetricData()
+        public MetricsCollection()
         {
             ScopedMetrics = new Dictionary<string, List<ScopedMetric>>();
             UnscopedMetrics = new Dictionary<string, Timeslice>();

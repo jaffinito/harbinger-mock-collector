@@ -1,14 +1,14 @@
 ﻿using Harbinger.Models;
 using Harbinger.Models.Connect;
-using Harbinger.Models.SpanEvents;
+using Harbinger.Models.Events;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Harbinger
 {
     internal static class ConnectMethodHandler
 	{
-		private static string _localIP;
-
 		public static ILogger Logger { get; set; }
 
 		public static ReturnValue HandleConnection(string method, string licenseKey, string protocolVersion, string payload)
@@ -26,7 +26,7 @@ namespace Harbinger
 				case "get_agent_commands":
 					return new ReturnValue("");
 				case "analytic_event_data":
-					return AnalyticEventData(payload);
+					return TransactionEventData(payload);
 				case "agent_command_results":
 					return new ReturnValue("");
 				case "custom_event_data":
@@ -68,7 +68,7 @@ namespace Harbinger
 			var connection = JsonConvert.DeserializeObject<List<ConnectMethodRequest>>(payload) 
 				?? new List<ConnectMethodRequest> { new ConnectMethodRequest() };
 			DataStore.Instance.ConnectRequest = connection[0] ;
-			return new ReturnValue(PayloadHelpers.ConnectReplyMock(1234));
+			return new ReturnValue(PayloadHelpers.ConnectReplyMock("fred"));
 		}
 
 		private static ReturnValue MetricData(string payload)
@@ -81,20 +81,36 @@ namespace Harbinger
 
 		private static ReturnValue SpanEventData(string payload)
 		{
-			var spanEventData = new SpanEventData(payload);
+			var spanEventData = new EventData(payload);
 			DataStore.Instance.SpanEventData.Add(spanEventData.AgentRunId, spanEventData);
+			return new ReturnValue("");
+		}
+
+		private static ReturnValue TransactionEventData(string payload)
+		{
+			var transactionEventData = new EventData(payload);
+			DataStore.Instance.TransactionEventData.Add(transactionEventData.AgentRunId, transactionEventData);
 			return new ReturnValue("");
 		}
 
 		private static ReturnValue LogEventData(string payload)
 		{
-			var data = JsonConvert.DeserializeObject<List<object>>(payload);
+			var logEventData = JsonConvert.DeserializeObject<List<LogEventData>>(payload).FirstOrDefault();
+            DataStore.Instance.LogEventData.Add(logEventData);
 			return new ReturnValue("");
 		}
 
 		private static ReturnValue ErrorEventData(string payload)
 		{
-			var data = JsonConvert.DeserializeObject<List<object>>(payload);
+			var errorEventData = new EventData(payload);
+			DataStore.Instance.ErrorEventData.Add(errorEventData.AgentRunId, errorEventData);
+			return new ReturnValue("");
+		}
+
+		private static ReturnValue CustomEventData(string payload)
+		{
+			var customEventData = new EventData(payload);
+			DataStore.Instance.CustomEventData.Add(customEventData.AgentRunId, customEventData);
 			return new ReturnValue("");
 		}
 
@@ -110,16 +126,56 @@ namespace Harbinger
 			return new ReturnValue("");
 		}
 
-		private static ReturnValue CustomEventData(string payload)
+		public static async Task<string> TryDecompress(Stream stream, string compressionsType)
 		{
-			var data = JsonConvert.DeserializeObject<List<object>>(payload);
-			return new ReturnValue("");
+			var payloadMemoryStream = new MemoryStream();
+			stream.CopyTo(payloadMemoryStream);
+
+			if (compressionsType == "identity")
+			{
+				using (var reader = new StreamReader(payloadMemoryStream))
+				{
+					return await reader.ReadToEndAsync();
+				}
+			}
+
+			return await Decompress(payloadMemoryStream);
 		}
 
-		private static ReturnValue AnalyticEventData(string payload)
+		public static async Task<string> Decompress(MemoryStream payloadMemoryStream)
 		{
-			var data = JsonConvert.DeserializeObject<List<object>>(payload);
-			return new ReturnValue("");
+			var compressedBuffer = payloadMemoryStream.ToArray();
+			var inStream = new MemoryStream(compressedBuffer);
+			var outStream = new MemoryStream(compressedBuffer.Length);
+			var inflateStream = new InflaterInputStream(inStream);
+
+			inStream.Position = 0;
+			byte[] resBuffer = null;
+			try
+			{
+				var tmpBuffer = new byte[compressedBuffer.Length];
+				int read = 0;
+
+				do
+				{
+					read = await inflateStream.ReadAsync(tmpBuffer, 0, tmpBuffer.Length);
+					if (read > 0)
+					{
+						await outStream.WriteAsync(tmpBuffer, 0, read);
+					}
+
+				} while (read > 0);
+
+				resBuffer = outStream.ToArray();
+			}
+			finally
+			{
+				inflateStream.Close();
+				inStream.Close();
+				outStream.Close();
+			}
+
+			return Encoding.UTF8.GetString(resBuffer);
 		}
 	}
 }

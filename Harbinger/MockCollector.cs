@@ -1,5 +1,6 @@
-﻿using Harbinger.Controllers;
+﻿//using Harbinger.Controllers;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Newtonsoft.Json;
 using Xunit.Abstractions;
 
 namespace Harbinger
@@ -27,27 +28,28 @@ namespace Harbinger
         public async Task StartCollector(string uri)
         {
             var builder = WebApplication.CreateBuilder();
+            builder.Logging.AddConsole();
 
-            // Add services to the container.
-            builder.Services.AddMvc()
-                .AddApplicationPart(typeof(AgentListenerController).Assembly)
-                .AddControllersAsServices();
+            builder.Services.AddAuthorization();
 
             builder.Services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
             });
 
-
             var app = builder.Build();
+
+            app.MapPost("/agent_listener/invoke_raw_method", async (HttpRequest request, string method, string license_key, string protocol_version) => 
+            {
+                var payload = await ConnectMethodHandler.TryDecompress(request.Body, request.Headers["CONTENT-ENCODING"]);
+                return JsonConvert.SerializeObject(ConnectMethodHandler.HandleConnection(method, license_key, protocol_version, payload));
+            });
 
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-            app.MapControllers();
 
             app.Urls.Add(uri);
 
