@@ -3,15 +3,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Harbinger.Models.Events
 {
-    internal class EventData : IMergeableData
+    internal class CustomEventData : IMergeableData
     {
         public string AgentRunId { get; set; }
 
-        public EventHarvestData EventHarvestData { get; set; }
-
         public List<Event> Events { get; set; }
 
-        public EventData(string payload)
+        public CustomEventData(string payload)
         {
             Events = new();
 
@@ -19,9 +17,7 @@ namespace Harbinger.Models.Events
 
             AgentRunId = eventData[0].ToString();
 
-            EventHarvestData = eventData[1].ToObject<EventHarvestData>();
-
-            var events = eventData[2].Children();
+            var events = eventData[1];
             foreach (JArray eventArray in events)
             {
                 var eventObj = new Event();
@@ -46,15 +42,8 @@ namespace Harbinger.Models.Events
 
         public void Merge(IMergeableData dataCollection)
         {
-            var eventData = dataCollection as EventData;
-
-            if (EventHarvestData.ReservoirSize == default)
-            {
-                EventHarvestData.ReservoirSize = eventData.EventHarvestData.ReservoirSize;
-            }
-
-            EventHarvestData.EventsSeen += eventData.EventHarvestData.EventsSeen;
-            Events.AddRange(eventData.Events);
+            var customEventData = dataCollection as CustomEventData;
+            Events.AddRange(customEventData.Events);
         }
 
         private void TryAddAttribute(KeyValuePair<string, JToken> pair, Dictionary<string, object> attributes)

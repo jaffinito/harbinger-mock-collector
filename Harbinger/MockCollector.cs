@@ -1,6 +1,8 @@
 ﻿//using Harbinger.Controllers;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Newtonsoft.Json;
+using System.Text;
 using Xunit.Abstractions;
 
 namespace Harbinger
@@ -41,8 +43,8 @@ namespace Harbinger
 
             app.MapPost("/agent_listener/invoke_raw_method", async (HttpRequest request, string method, string license_key, string protocol_version) => 
             {
-                var payload = await ConnectMethodHandler.TryDecompress(request.Body, request.Headers["CONTENT-ENCODING"]);
-                return JsonConvert.SerializeObject(ConnectMethodHandler.HandleConnection(method, license_key, protocol_version, payload));
+                var payload = await TryDecompress(request.Body, request.Headers["CONTENT-ENCODING"]);
+                return JsonConvert.SerializeObject(ConnectionHandler.HandleConnection(method, license_key, protocol_version, payload));
             });
 
             // Configure the HTTP request pipeline.
@@ -60,6 +62,58 @@ namespace Harbinger
         {
             LoggerAdapter.Instance.WriteLine("Stopping mock collector host");
             _cancellationTokenSource.Cancel();
+        }
+
+        private static async Task<string> TryDecompress(Stream stream, string compressionsType)
+        {
+            var payloadMemoryStream = new MemoryStream();
+            stream.CopyTo(payloadMemoryStream);
+
+            if (compressionsType == "identity")
+            {
+                using (var reader = new StreamReader(payloadMemoryStream))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+
+            return await Decompress(payloadMemoryStream);
+        }
+
+        private static async Task<string> Decompress(MemoryStream payloadMemoryStream)
+        {
+            var compressedBuffer = payloadMemoryStream.ToArray();
+            var inStream = new MemoryStream(compressedBuffer);
+            var outStream = new MemoryStream(compressedBuffer.Length);
+            var inflateStream = new InflaterInputStream(inStream);
+
+            inStream.Position = 0;
+            byte[] resBuffer = null;
+            try
+            {
+                var tmpBuffer = new byte[compressedBuffer.Length];
+                int read = 0;
+
+                do
+                {
+                    read = await inflateStream.ReadAsync(tmpBuffer, 0, tmpBuffer.Length);
+                    if (read > 0)
+                    {
+                        await outStream.WriteAsync(tmpBuffer, 0, read);
+                    }
+
+                } while (read > 0);
+
+                resBuffer = outStream.ToArray();
+            }
+            finally
+            {
+                inflateStream.Close();
+                inStream.Close();
+                outStream.Close();
+            }
+
+            return Encoding.UTF8.GetString(resBuffer);
         }
     }
 }

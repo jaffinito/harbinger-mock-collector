@@ -46,6 +46,9 @@ namespace Harbinger.Models.Connect
 		[JsonProperty(PropertyName = "data_methods")]
 		public DataMethods DataMethods { get; internal set; }
 
+		[JsonProperty(PropertyName = "entity_guid")]
+		public string EntityGuid { get; internal set; }
+
 		[JsonProperty(PropertyName = "event_harvest_config")]
 		public EventHarvestConfig EventHarvestConfig { get; internal set; }
 

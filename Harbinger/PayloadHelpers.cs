@@ -28,6 +28,7 @@ namespace Harbinger
 					ErrorEventData = new EventDataConfiguration { ReportPeriodInSeconds = 60 },
 					SpanEventData = new EventDataConfiguration { ReportPeriodInSeconds = 60 }
 				},
+				EntityGuid = agentRunId,
 				EventHarvestConfig = new EventHarvestConfig
 				{
 					ReportPeriodMilliseconds = 5000,

@@ -58,5 +58,23 @@ namespace Harbinger
 
             Console.WriteLine(line);
         }
+
+        public void Error(Exception ex, string message = "")
+        {
+            if (_loggerName == "ILogger")
+            {
+                _iLogger.LogError(ex, message);
+            }
+            else if (_loggerName == "ITestOutputHelper")
+            {
+                _testOutputHelper.WriteLine($"An error occured for request {message}");
+                _testOutputHelper.WriteLine(ex.Message);
+                _testOutputHelper.WriteLine(ex.StackTrace);
+            }
+
+            Console.WriteLine($"An error occured for request {message}");
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+        }
     }
 }
